@@ -17,7 +17,7 @@ describe('Assign object property values to new variables while destructuring', (
     describe('for function parameter names', function() {
       it('do it the same way, with a colon behind it', () => {
         const fn = ({x}) => {
-          assert.equal(y, 1);
+          assert.equal(x, 1);
         };
         fn({x: 1});
       });
