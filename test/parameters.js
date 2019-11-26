@@ -31,7 +31,7 @@ describe('Destructuring function parameters', () => {
         fn(23);
       });
       it('for a missing array value', () => {
-        const defaultUser = {id: 23, name: 'Joe'};
+        const {defaultUser} = {id: 23, name: 'Joe'};
         const fn = ([user]) => {
           assert.deepEqual(user, defaultUser);
         };
