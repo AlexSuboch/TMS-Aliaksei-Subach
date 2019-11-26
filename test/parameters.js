@@ -7,11 +7,11 @@ var assert = require('assert');
 describe('Destructuring function parameters', () => {
     describe('destruct parameters', () => {
       it('multiple params from object', () => {
-        const fn = ({id}, {name}) => {
+        const fn = ({id, name}) => {
           assert.equal(id, 42);
           assert.equal(name, 'Wolfram');
         };
-        const user = {name: 'Wolfram', id: 42};
+        const user = {id: 42, name: 'Wolfram'};
         fn(user);
       });
       it('multiple params from array/object', () => {
