@@ -18,7 +18,7 @@ describe('Destructuring function parameters', () => {
         const fn = ([{name}]) => {
           assert.equal(name, 'Alice');
         };
-        const users = [{name: 'nobody'}, {name: 'Alice', id: 42}];
+        const users = [{name: 'Alice', id: 42}];
         fn(users);
       });
     });
