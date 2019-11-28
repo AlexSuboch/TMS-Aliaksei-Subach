@@ -100,7 +100,7 @@ describe('Tagged template strings, are an advanced form of template strings', fu
   describe('the tag function can access each part of the template', function() {
     describe('the 1st parameter receives only the pure strings of the template string', function() {
       function tagFunction(strings) {
-        return strings;
+        return `${strings}`;
       }
       it('the strings are an array', function() {
         var result = 'template string';
