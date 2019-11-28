@@ -111,7 +111,7 @@ describe('A simple iterable without items inside, implementing the right protoco
 
   let iterable;
   beforeEach(function() {
-    iterable = {[Symbol.iterator]: iteratorFunction};
+    iterable = {[Symbol.iterator]: iteratorFunction}
   });
 
   describe('the iterable', function() {
@@ -124,7 +124,7 @@ describe('A simple iterable without items inside, implementing the right protoco
   });
   describe('using the iterable', function() {
     it('it contains no values', function() {
-      let values;
+      let values = '';
       for (let value of iterable) {
         values += value;
       }
