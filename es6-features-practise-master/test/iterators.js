@@ -94,7 +94,7 @@ describe('The native string is a built-in iterable object', function() {
 describe('A simple iterable without items inside, implementing the right protocol', () => {
 
   function iteratorFunction() {
-    return {next(){}}
+    return {next(){return{done: true}}}
   }
 
   describe('the `iteratorFunction` needs to comply to the iterator protocol', function() {
