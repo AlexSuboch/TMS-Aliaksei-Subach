@@ -75,7 +75,10 @@ line3`;
       assert.equal(multiline, 'line 1\n\n      42');
     });
     it('also here spaces matter', function() {
-      var multiline = ``;
+      var multiline = 
+`
+
+${x}`;
 
       assert.equal(multiline, '\n\n42');
     });
