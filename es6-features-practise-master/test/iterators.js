@@ -111,7 +111,8 @@ describe('A simple iterable without items inside, implementing the right protoco
 
   let iterable;
   beforeEach(function() {
-    iterable;
+    iterable = {};
+    return iterable
   });
 
   describe('the iterable', function() {
