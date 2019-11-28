@@ -79,7 +79,6 @@ describe('The native string is a built-in iterable object', function() {
       iterator.next();
       iterator.next();
       
-      
       assert.equal(iterator.next().done, true);
     });
   });
@@ -94,7 +93,9 @@ describe('The native string is a built-in iterable object', function() {
 
 describe('A simple iterable without items inside, implementing the right protocol', () => {
 
-  function iteratorFunction() {}
+  function iteratorFunction() {
+    return {}
+  }
 
   describe('the `iteratorFunction` needs to comply to the iterator protocol', function() {
     it('must return an object', function() {
