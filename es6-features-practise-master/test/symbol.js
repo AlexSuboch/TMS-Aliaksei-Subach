@@ -97,7 +97,7 @@ describe('`Symbol.keyFor()` gets the symbol key for a given symbol', function() 
   });
   it('for non-Symbols throws an error', function() {
     function fn() {
-      Symbol.keyFor(Symbol.for('foo'));
+      Symbol.keyFor(Symbol.for(foo));
     }
     assert.throws(fn);
   });
