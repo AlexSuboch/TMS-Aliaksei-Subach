@@ -94,7 +94,7 @@ describe('Tagged template strings, are an advanced form of template strings', fu
     function tagFunction(s) {
       return s.toString();
     }
-    var evaluated = `${tagFunction `template string`}`;
+    var evaluated = tagFunction`template string`;
     assert.equal(evaluated, 'template string');
   });
   describe('the tag function can access each part of the template', function() {
@@ -103,11 +103,11 @@ describe('Tagged template strings, are an advanced form of template strings', fu
         return `${strings}`;
       }
       it('the strings are an array', function() {
-        var result = 'template string';
+        var result = `template string`;
         assert.deepEqual(tagFunction`template string`, result);
       });
       it('expressions are NOT passed to it', function() {
-        var tagged = tagFunction`one${23}`;
+        var tagged = tagFunction`one, two`.split();
         assert.deepEqual(tagged, ['one', 'two']);
       });
     });
@@ -116,7 +116,7 @@ describe('Tagged template strings, are an advanced form of template strings', fu
       var two = 2;
       var three = 3;
       it('the 2nd parameter contains the first expression`s value', function() {
-        function firstValueOnly(strings, first_value) {
+        function firstValueOnly(strings, firstValue) {
           return firstValue;
         }
         assert.equal(firstValueOnly`uno ${one}, dos ${two}`, 1);
