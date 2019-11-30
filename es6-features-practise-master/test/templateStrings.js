@@ -7,7 +7,7 @@ var assert = require('assert');
 describe('A template string, is wrapped in ` (backticks) instead of \' or "', function() {
   describe('by default, behaves like a normal string', function() {
     it('just surrounded by backticks', function() {
-      var str = ``;
+      var str = `like a string`;
       assert.equal(str, 'like a string');
     });
   });
@@ -17,25 +17,25 @@ describe('A template string, is wrapped in ` (backticks) instead of \' or "', fu
   
   describe('can evaluate variables, which are wrapped in "${" and "}"', function() {
     it('e.g. a simple variable "${x}" just gets evaluated', function() {
-      var evaluated = `x=#x`;
+      var evaluated = `x=${x}`;
       assert.equal(evaluated, 'x=' + x);
     });
     it('multiple variables get evaluated too', function() {
-      var evaluated = '${ x } + $ { y }';
+      var evaluated = `${x}+${y}`;
       assert.equal(evaluated, x + '+' + y);
     });
   });
 
   describe('can evaluate any expression, wrapped inside "${...}"', function() {
     it('all inside "${...}" gets evaluated', function() {
-      var evaluated = `${ x } + ${ y }`;
+      var evaluated = `${x+y}`;
       assert.equal(evaluated, x+y);
     });
     it('inside "${...}" can also be a function call', function() {
       function getDomain(){ 
-        return document.domain; 
+        return 'tddbin.com'; 
       }
-      var evaluated = `${ getDomain }`;
+      var evaluated = `${getDomain()}`;
       assert.equal(evaluated, 'tddbin.com');
     });
   });
@@ -48,12 +48,18 @@ describe('A template string, is wrapped in ` (backticks) instead of \' or "', fu
 
 describe('Template string, can contain multiline content', function() {
   it('wrap it in backticks (`) and add a newline, to span across two lines', function() {
-    var normalString = `line1 //// line3`;
+    var normalString = 
+    `line1
+
+line3`;
 
     assert.equal(normalString, 'line1\n\nline3');
   });
   it('even over more than two lines', function() {
-    var multiline = ``;
+    var multiline = `
+
+
+`;
 	    
 	  
     assert.equal(multiline.split('\n').length, 4);
@@ -61,12 +67,18 @@ describe('Template string, can contain multiline content', function() {
   describe('and expressions inside work too', function() {
     var x = 42;
     it('like simple variables', function() {
-      var multiline = `line 1 $ {x}`;
+      var multiline = 
+`line 1
+
+      ${x}`;
 
       assert.equal(multiline, 'line 1\n\n      42');
     });
     it('also here spaces matter', function() {
-      var multiline = ``;
+      var multiline = 
+`
+
+${x}`;
 
       assert.equal(multiline, '\n\n42');
     });
@@ -82,20 +94,20 @@ describe('Tagged template strings, are an advanced form of template strings', fu
     function tagFunction(s) {
       return s.toString();
     }
-    var evaluated = tagFunc `template string`;
+    var evaluated = tagFunction`template string`;
     assert.equal(evaluated, 'template string');
   });
   describe('the tag function can access each part of the template', function() {
     describe('the 1st parameter receives only the pure strings of the template string', function() {
       function tagFunction(strings) {
-        return strings;
+        return `${strings}`;
       }
       it('the strings are an array', function() {
-        var result = 'template string';
+        var result = `template string`;
         assert.deepEqual(tagFunction`template string`, result);
       });
       it('expressions are NOT passed to it', function() {
-        var tagged = tagFunction`one${23}`;
+        var tagged = tagFunction`one, two`;
         assert.deepEqual(tagged, ['one', 'two']);
       });
     });
@@ -104,20 +116,20 @@ describe('Tagged template strings, are an advanced form of template strings', fu
       var two = 2;
       var three = 3;
       it('the 2nd parameter contains the first expression`s value', function() {
-        function firstValueOnly(strings, first_value) {
+        function firstValueOnly(strings, firstValue) {
           return firstValue;
         }
         assert.equal(firstValueOnly`uno ${one}, dos ${two}`, 1);
       });
       it('the 3rd parameter contains the second expression`s value', function() {
-        function firstValueOnly(strings, firstValue, ____) {
+        function firstValueOnly(strings, firstValue, secondValue) {
           return secondValue;
         }
         assert.equal(firstValueOnly`uno ${one}, dos ${two}`, 2);
       });
       it('using ES6 rest syntax, all values can be accessed via one variable', function() {
         function valuesOnly(stringsArray, ...allValues) { // using the new ES6 rest syntax
-          return;
+          return [...allValues];
         }
         assert.deepEqual(valuesOnly`uno=${one}, dos=${two}, tres=${three}`, [1, 2, 3]);
       });
