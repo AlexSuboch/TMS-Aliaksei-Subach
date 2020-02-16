@@ -1,12 +1,14 @@
-import {GET_INPUTVALUE, GET_API, GET_USERS, GET_INFO, SET_NEW_DATA} from './actions'
+import {GET_INPUTVALUE, GET_API, GET_USERS, GET_INFO, SET_NEW_DATA, CHANGE_PAGE, CHANGE_PAGE_DATA} from './actions'
 
 const initialState = {
     data: [],
     inputValue: '',
-    page: 1, 
-    loading: false,
+    currentPage: 0, 
     videosId: [],
-    newData: []
+    newData: [],
+    pageAmount: [],
+    pageArr: [],
+    currentPageData: []
 }
 
 export function dataReducer(state = initialState, action) {
@@ -15,7 +17,6 @@ export function dataReducer(state = initialState, action) {
         case GET_USERS: {
             return {
                 ...state,
-                loading: true
             }
         }
 
@@ -30,23 +31,40 @@ export function dataReducer(state = initialState, action) {
             return{
                 ...state,
                 data: [action.payload],
-                loading: false,
             }
         }
 
         case GET_INFO:{
             return{
                 ...state,
-                videosId:  [...state.data[0].map(element => element.id.videoId)]
+                videosId:  [...state.data[0].map(element => element.id.videoId)],
+                pageAmount: state.data[0].length/5,
+                currentPageData: state.data[0].slice(0, 5)
             }
         }
 
         case SET_NEW_DATA: {
             return{
                 ...state,
-                newData: action.payload
+                newData: action.payload,
+                pageArr: state.data[0].slice(0, state.pageAmount)
             }
         }
+
+        case CHANGE_PAGE: {
+            return{
+                ...state,
+                currentPage: action.payload,
+            }
+        }
+
+        case CHANGE_PAGE_DATA: {
+            return{
+                ...state,
+                currentPageData: state.data[0].slice(state.currentPage*5, state.currentPage*5 + 5)
+            }
+        }
+
 
         default: return state
     }

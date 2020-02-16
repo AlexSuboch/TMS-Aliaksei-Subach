@@ -7,11 +7,13 @@ export default function Box(props){
     const [data, setData] = useState(false)
     const newData = useSelector(state => state.newData)
     const dispatch = useDispatch()
-
     
-
     function abc (){
         dispatch(getInfo())
+        setData(!data)
+    }
+
+    function abcc(){
         setData(!data)
     }
 
@@ -26,7 +28,7 @@ export default function Box(props){
                 <div>{newData[props.index].statistics.commentCount}</div>
             </div>
         }
-        <span onClick = {abc}>{data === false? `description`: 'back'}</span>
+        <span onClick = {data === false ? abc: abcc}>{data === false? `description`: 'back'}</span>
     </div>
     )
 }
