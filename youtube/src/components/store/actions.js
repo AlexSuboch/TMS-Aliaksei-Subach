@@ -5,6 +5,7 @@ export const GET_INFO = 'GET_INFO'
 export const SET_NEW_DATA = 'SET_NEW_DATA'
 export const CHANGE_PAGE = 'CHANGE_PAGE'
 export const CHANGE_PAGE_DATA = 'CHANGE_PAGE_DATA'
+export const NEW_DATA_FETCH = 'NEW_DATA_FETCH'
 
 export function getInputvalue(payload){
     return{
@@ -51,6 +52,13 @@ export function changePage(payload){
 export function changePageData(payload){
     return{
         type: CHANGE_PAGE_DATA,
+        payload: payload
+    }
+}
+
+export function newDataFetch(payload){
+    return{
+        type: NEW_DATA_FETCH,
         payload: payload
     }
 }

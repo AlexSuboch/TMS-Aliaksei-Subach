@@ -1,4 +1,4 @@
-import {GET_INPUTVALUE, GET_API, GET_USERS, GET_INFO, SET_NEW_DATA, CHANGE_PAGE, CHANGE_PAGE_DATA} from './actions'
+import {GET_INPUTVALUE, GET_API, GET_USERS, GET_INFO, SET_NEW_DATA, CHANGE_PAGE, CHANGE_PAGE_DATA, NEW_DATA_FETCH} from './actions'
 
 const initialState = {
     data: [],
@@ -8,7 +8,9 @@ const initialState = {
     newData: [],
     pageAmount: [],
     pageArr: [],
-    currentPageData: []
+    currentPageData: [],
+    pageToken: '',
+    loading: false,
 }
 
 export function dataReducer(state = initialState, action) {
@@ -30,41 +32,50 @@ export function dataReducer(state = initialState, action) {
         case GET_API: {
             return{
                 ...state,
-                data: [action.payload],
+                data: [...state.data, ...[...action.payload.items]],
+                pageToken: action.payload.code,
+                loading: false,
             }
         }
 
         case GET_INFO:{
             return{
                 ...state,
-                videosId:  [...state.data[0].map(element => element.id.videoId)],
-                pageAmount: state.data[0].length/5,
-                currentPageData: state.data[0].slice(0, 5)
+                videosId: [state.data.map(element => element.id.videoId)],
+                pageAmount: state.data.length/5 ,
+                currentPageData: state.data.slice(state.currentPage*5, state.currentPage*5 + 5),
             }
         }
 
         case SET_NEW_DATA: {
             return{
                 ...state,
-                newData: action.payload,
-                pageArr: state.data[0].slice(0, state.pageAmount)
+                newData: [...state.newData, ...action.payload],
+                pageArr: state.data.slice(0, state.pageAmount),
+                
             }
         }
 
         case CHANGE_PAGE: {
             return{
                 ...state,
-                currentPage: action.payload,
+                currentPage: action.payload +1,
             }
         }
 
         case CHANGE_PAGE_DATA: {
             return{
                 ...state,
-                currentPageData: state.data[0].slice(state.currentPage*5, state.currentPage*5 + 5)
+                currentPageData: state.data.slice(state.currentPage*5, state.currentPage*5 + 5),
+                loading: true
             }
         }
 
+        case NEW_DATA_FETCH: {
+            return{
+                ...state,
+            }
+        }
 
         default: return state
     }

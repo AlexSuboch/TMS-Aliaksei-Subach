@@ -8,8 +8,8 @@ export default function Box(props){
     const newData = useSelector(state => state.newData)
     const dispatch = useDispatch()
     
-    function abc (){
-        dispatch(getInfo())
+    function abc (props){
+        dispatch(getInfo(props.index))
         setData(!data)
     }
 
