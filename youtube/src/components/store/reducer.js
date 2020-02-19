@@ -11,6 +11,7 @@ const initialState = {
     currentPageData: [],
     pageToken: '',
     loading: false,
+    dataForId: []
 }
 
 export function dataReducer(state = initialState, action) {
@@ -33,6 +34,7 @@ export function dataReducer(state = initialState, action) {
             return{
                 ...state,
                 data: [...state.data, ...[...action.payload.items]],
+                dataForId: action.payload.items,
                 pageToken: action.payload.code,
                 loading: false,
             }
@@ -41,7 +43,7 @@ export function dataReducer(state = initialState, action) {
         case GET_INFO:{
             return{
                 ...state,
-                videosId: [state.data.map(element => element.id.videoId)],
+                videosId: [state.dataForId.map(element => element.id.videoId)],
                 pageAmount: state.data.length/5 ,
                 currentPageData: state.data.slice(state.currentPage*5, state.currentPage*5 + 5),
             }
